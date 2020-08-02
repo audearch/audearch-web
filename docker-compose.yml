@@ -1,0 +1,37 @@
+version: "3.0"
+
+services:
+  
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    networks: 
+       - local-net
+      
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    networks: 
+      - local-net
+
+  api:
+    links:
+      - mongo
+      - mongo-express
+    container_name: "web"
+    build: .
+    restart: always
+    ports:
+       - 8000:8000
+    networks: 
+      - local-net
+
+networks:
+  local-net:
+      driver: bridge
+      
+      
