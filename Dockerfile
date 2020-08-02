@@ -31,4 +31,4 @@ COPY ./audearch-web/ /app/
 RUN ls
 
 # FastAPIを8000ポートで待機
-RUN python3 run.py
+CMD [ "python3", "run.py" ]
