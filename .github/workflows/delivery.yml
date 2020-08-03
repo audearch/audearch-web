@@ -17,7 +17,19 @@ jobs:
 
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+
+      - name: Cache docker images
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-docker-images
+        with:
+          path: ~/.docker
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
       - name: GCP Authenticate
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
