@@ -12,7 +12,7 @@ app = FastAPI(
     version='0.2.0'
 )
 
-templates = Jinja2Templates(directory="audearch-web/templates")
+templates = Jinja2Templates(directory="templates")
 jinja_env = templates.env
 
 
