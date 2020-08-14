@@ -22,6 +22,7 @@ RUN pip3 install cython numpy scipy
 
 ADD setup.py .
 ADD setup.cfg .
+ADD constraints.txt .
 
 # requirements.txtにリストされたPythonパッケージをインストールする
 RUN python3 setup.py install
