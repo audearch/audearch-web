@@ -13,7 +13,4 @@ RUN pip3 install -r requirements.txt
 
 COPY ./audearch-web/ /app/
 
-RUN ls
-
-# FastAPIを8000ポートで待機
 CMD [ "python3", "run.py" ]
