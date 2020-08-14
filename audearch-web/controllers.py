@@ -1,10 +1,10 @@
+import time
+
 from audearch.analyzer import analyzer
 from audearch.database import MongodbFactory
 from fastapi import FastAPI, File, UploadFile
-from starlette.templating import Jinja2Templates
 from starlette.requests import Request
-import time
-
+from starlette.templating import Jinja2Templates
 
 app = FastAPI(
     title='audearch',
