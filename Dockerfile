@@ -7,7 +7,7 @@ RUN pip3 install --upgrade pip setuptools
 RUN pip3 install cython numpy scipy
 
 ADD requirements.txt .
-ADD config.ini .
+ADD audearch-config.ini .
 
 # requirements.txtにリストされたPythonパッケージをインストールする
 RUN pip3 install -r requirements.txt
