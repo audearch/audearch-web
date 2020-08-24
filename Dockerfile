@@ -6,7 +6,7 @@ RUN pip3 install --upgrade pip setuptools
 
 RUN pip3 install cython numpy scipy
 
-RUN apt-get update
+RUN apt-get update -y
 RUN apt-get install libsndfile1-dev
 
 ADD requirements.txt .
