@@ -1,8 +1,6 @@
-import time
-
 from audearch.analyzer import analyzer
 from audearch.database import MongodbFactory
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, Form, UploadFile
 from starlette.requests import Request
 from starlette.templating import Jinja2Templates
 
@@ -24,25 +22,20 @@ def index(request: Request):
 
 
 @app.post("/upload_file/", status_code=201)
-async def upload_file(files: UploadFile = File(...)):
+async def upload_file(files: UploadFile = File(...), music_id: str = Form(...), title: str = Form(...), duration: str = Form(...)):
     mongodb = MongodbFactory()
     imongo = mongodb.create()
-
-    music_id = int(str(time.time())[-6:])
 
     file_object = files.file
     list_landmark = analyzer(file_object)
 
-    title = "test"
-    duration = 0
-
-    music = MusicData(music_id, list_landmark)
-    music_meta = MusicMetadata(music_id, title, duration)
+    music = MusicData(int(music_id), list_landmark)
+    music_meta = MusicMetadata(int(music_id), title, int(duration))
 
     music_register(imongo, music)
     music_metadata_register(imongo, music_meta)
 
-    return {"music_id": music_id}
+    return {"music_id": int(music_id)}
 
 
 @app.get('/upload')
