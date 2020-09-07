@@ -7,16 +7,25 @@
     </div>
 </div>
 <form action="/upload_file/" enctype="multipart/form-data" method="post">
-    <input name="files" type="file" multiple>
-    <p>music ID</p>
-    <input name="music_id" type="text" multiple>
+    <div class="form-group">
+        <label for="files">Music File</label>
+        <input name="files" type="file" id="files" class="form-control-file" multiple>
+    </div>
+    <div class="form-group">
+        <label for="music_id">Music ID</label>
+        <input name="music_id" type="text" class="form-control" id="music_id" multiple>
+    </div>
     <br>
-    <p>title</p>
-    <input name="title" type="text" multiple>
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input name="title" id="title" type="text" class="form-control" multiple>
+    </div>
     <br>
-    <p>duration</p>
-    <input nama="duration" type="text" multiple>
-    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">submit</button>
+    <div class="form-group">
+        <label for="duration">Duration</label>
+        <input name="duration" id="duration" type="text" class="form-control" multiple>
+    </div>
+    <button class="btn btn-primary" type="submit">submit</button>
 </form>
 
 <hr>
