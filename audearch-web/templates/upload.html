@@ -6,27 +6,27 @@
         <h1>audearch</h1>
     </div>
 </div>
-<form action="/upload_file/" enctype="multipart/form-data" method="post">
-    <div class="form-group">
-        <label for="files">Music File</label>
-        <input name="files" type="file" id="files" class="form-control-file" multiple>
-    </div>
-    <div class="form-group">
-        <label for="music_id">Music ID</label>
-        <input name="music_id" type="text" class="form-control" id="music_id" multiple>
-    </div>
-    <br>
-    <div class="form-group">
-        <label for="title">Title</label>
-        <input name="title" id="title" type="text" class="form-control" multiple>
-    </div>
-    <br>
-    <div class="form-group">
-        <label for="duration">Duration</label>
-        <input name="duration" id="duration" type="text" class="form-control" multiple>
-    </div>
-    <button class="btn btn-primary" type="submit">submit</button>
-</form>
+<div class="container-fluid">
+    <form action="/upload_file/" enctype="multipart/form-data" method="post">
+        <div class="form-group">
+            　　<legend for="files">Music File</legend>
+            　　<input name="files" type="file" id="files" class="form-control-file" multiple>
+        </div>
+        <div class="form-group">
+            　　<legend for="music_id">Music ID</legend>
+            　　<input name="music_id" type="text" class="form-control" id="music_id" multiple>
+        </div>
+        <div class="form-group">
+            　　<legend for="title">Title</legend>
+            　　<input name="title" id="title" type="text" class="form-control" multiple>
+        </div>
+        <div class="form-group">
+            　　<legend for="duration">Duration</legend>
+            　　<input name="duration" id="duration" type="text" class="form-control" multiple>
+        </div>
+        <button class="btn btn-primary" type="submit">submit</button>
+    </form>
+</div>
 
 <hr>
 <p>This is a audio fingerprinting system by <b>FastAPI</b>!</p>
