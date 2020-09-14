@@ -1,5 +1,3 @@
-import time
-
 from audearch.analyzer import analyzer
 from audearch.database import MongodbFactory
 from fastapi import BackgroundTasks, FastAPI, File, UploadFile
