@@ -17,12 +17,12 @@ templates = Jinja2Templates(directory="templates")
 jinja_env = templates.env
 
 
-async def write_hash(files: UploadFile, title: str, music_id: int, duration: int) -> None:
+async def write_hash(files: UploadFile, title: str, music_id: int, duration: int, size: int) -> None:
     mongodb = MongodbFactory()
     imongo = mongodb.create()
 
     file_object = files.file
-    list_landmark = analyzer(file_object)
+    list_landmark = analyzer(file_object, size)
 
     music = MusicData(music_id, list_landmark)
     music_meta = MusicMetadata(music_id, title, duration)
@@ -36,9 +36,9 @@ def index(request: Request):
 
 
 @app.post("/upload_file/", status_code=201)
-async def upload_file(background_tasks: BackgroundTasks, files: UploadFile = File(...), music_id: str = Form(...), title: str = Form(...), duration: str = Form(...)):
+async def upload_file(background_tasks: BackgroundTasks, files: UploadFile = File(...), music_id: str = Form(...), title: str = Form(...), duration: str = Form(...), size: int = Form(...)):
 
-    background_tasks.add_task(write_hash, files, title, music_id, duration)
+    background_tasks.add_task(write_hash, files, title, music_id, duration, int(size))
 
     return {"music_id": music_id}
 
