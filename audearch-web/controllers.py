@@ -1,6 +1,6 @@
 from audearch.analyzer import analyzer
 from audearch.database import MongodbFactory
-from fastapi import BackgroundTasks, FastAPI, File, UploadFile
+from fastapi import BackgroundTasks, FastAPI, File, Form, UploadFile
 from starlette.requests import Request
 from starlette.templating import Jinja2Templates
 
@@ -36,11 +36,7 @@ def index(request: Request):
 
 
 @app.post("/upload_file/", status_code=201)
-async def upload_file(background_tasks: BackgroundTasks, files: UploadFile = File(...)):
-    music_id = int(str(time.time())[-6:])
-
-    title = "test"
-    duration = 0
+async def upload_file(background_tasks: BackgroundTasks, files: UploadFile = File(...), music_id: str = Form(...), title: str = Form(...), duration: str = Form(...)):
 
     background_tasks.add_task(write_hash, files, title, music_id, duration)
 
