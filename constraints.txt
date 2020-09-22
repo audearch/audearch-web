@@ -1,5 +1,0 @@
-audearch==0.2.0
-fastapi==0.60.1
-uvicorn==0.11.7
-starlette==0.13.6
-Jinja2==2.11.2
