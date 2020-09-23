@@ -1,4 +1,4 @@
-audearch==0.2.3
+audearch==0.3.0
 fastapi==0.61.1
 uvicorn==0.11.7
 starlette==0.13.8
