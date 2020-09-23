@@ -46,3 +46,8 @@ async def upload_file(background_tasks: BackgroundTasks, files: UploadFile = Fil
 @app.get('/upload')
 def upload(request: Request):
     return templates.TemplateResponse('upload.html', {'request': request})
+
+
+@app.get('/search')
+def search(request: Request):
+    return templates.TemplateResponse('search.html', {'request': request})
