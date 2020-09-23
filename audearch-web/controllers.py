@@ -1,4 +1,4 @@
-from audearch.analyzer import analyzer
+from audearch.analyzer import librosa_analyzer
 from audearch.database import MongodbFactory
 from fastapi import BackgroundTasks, FastAPI, File, Form, UploadFile
 from starlette.requests import Request
@@ -22,7 +22,7 @@ async def write_hash(files: UploadFile, title: str, music_id: int, duration: int
     imongo = mongodb.create()
 
     file_object = files.file
-    list_landmark = analyzer(file_object, size)
+    list_landmark = librosa_analyzer(file_object, size)
 
     music = MusicData(music_id, list_landmark)
     music_meta = MusicMetadata(music_id, title, duration)
