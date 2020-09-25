@@ -87,6 +87,7 @@ async def upload_search_music(background_tasks: BackgroundTasks, sfiles: UploadF
 
 
 @app.get('/search/{search_hash}')
+@app.post('/search/{search_hash}')
 async def search_detail(search_hash: str):
     cur = get_search_queue(str(search_hash))
     if cur is None:
