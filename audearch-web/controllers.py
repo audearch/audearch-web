@@ -97,10 +97,10 @@ async def search_detail(search_hash: str):
 
 
 @app.get('/upload')
-def upload(request: Request):
+async def upload(request: Request):
     return templates.TemplateResponse('upload.html', {'request': request})
 
 
 @app.get('/search')
-def search(request: Request):
+async def search(request: Request):
     return templates.TemplateResponse('search.html', {'request': request})
