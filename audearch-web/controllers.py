@@ -1,4 +1,4 @@
-import hashlib
+import uuid
 
 from audearch.analyzer import librosa_analyzer
 from audearch.database import MongodbFactory
@@ -8,6 +8,7 @@ from starlette.requests import Request
 from starlette.responses import RedirectResponse
 from starlette.templating import Jinja2Templates
 
+from database import SearchMongodbFactory
 from cruds import music_metadata_register, music_register
 from schemas import MusicData, MusicMetadata
 
@@ -21,7 +22,7 @@ templates = Jinja2Templates(directory="templates")
 jinja_env = templates.env
 
 
-async def write_hash(files: UploadFile, title: str, music_id: int, duration: int, size: int) -> None:
+def write_hash(files: UploadFile, title: str, music_id: int, duration: int, size: int) -> None:
     mongodb = MongodbFactory()
     imongo = mongodb.create()
 
@@ -35,27 +36,28 @@ async def write_hash(files: UploadFile, title: str, music_id: int, duration: int
     music_metadata_register(imongo, music_meta)
 
 
-async def search_music(sfiles: UploadFile, search_hash: str, size: int) -> int:
-    mongodb = MongodbFactory()
-    imongo = mongodb.create()
+def search_music(sfiles: UploadFile, search_hash: str, size: int):
+    smongodb = SearchMongodbFactory()
+    smongo = smongodb.create()
+
+    imongodb = MongodbFactory()
+    imongo = imongodb.create()
 
     search_file = sfiles.file
     ansid = librosa_search(search_file, size, imongo)
 
-    imongo.update_search_queue(search_hash, ansid)
-
-    return ansid
+    smongo.update_search_queue(search_hash, ansid)
 
 
 async def regist_queue(search_hash: str):
-    mongodb = MongodbFactory()
+    mongodb = SearchMongodbFactory()
     imongo = mongodb.create()
 
     imongo.add_search_queue(search_hash)
 
 
 def get_search_queue(search_hash: str):
-    mongodb = MongodbFactory()
+    mongodb = SearchMongodbFactory()
     imongo = mongodb.create()
 
     cur = imongo.get_search_queue(search_hash)
@@ -76,24 +78,25 @@ async def upload_file(background_tasks: BackgroundTasks, files: UploadFile = Fil
 
 
 @app.post("/upload_search_music", status_code=201)
-async def upload_search_music(background_tasks: BackgroundTasks, files: UploadFile = File(...), size: int = Form(...)):
-    h = hashlib.new('ripemd160')
-    regist_queue(str(h.hexdigest))
-    background_tasks.add_task(search_music, files, str(h.hexdigest), size)
+async def upload_search_music(background_tasks: BackgroundTasks, sfiles: UploadFile = File(...), size: int = Form(...)):
+    h = str(uuid.uuid4())
+    await regist_queue(str(h))
+    background_tasks.add_task(search_music, sfiles, str(h), size)
 
-    return RedirectResponse(f'/search/{h.hexdigest}')
+    return RedirectResponse(f'/search/{str(h)}')
 
 
-@app.get('search/{search_hash}')
+@app.get('/search/{search_hash}')
 async def search_detail(search_hash: str):
-    cur = get_search_queue(search_hash)
-
-    if cur['status'] == 0:
-        return "searching"
-    elif cur['status'] == 1:
-        return str(cur['answer'])
+    cur = get_search_queue(str(search_hash))
+    if cur is None:
+        return {"message": "Not Found"}
+    elif int(cur['status']) == 0:
+        return {"message": "searching"}
+    elif int(cur['status']) == 1:
+        return {"message": str(cur['answer'])}
     else:
-        return "something went wrong"
+        return {"message": "something went wrong"}
 
 
 @app.get('/upload')
