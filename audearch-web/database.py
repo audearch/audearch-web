@@ -66,8 +66,6 @@ class Mongodb(Database):
     def update_search_queue(self, search_id: str, answerid: int):
         self.__collection = self.__db.get_collection(self.__config['database']['mongodb']['search_queue'])
 
-        print("No2")
-
         post_edited = {
             'hashid': search_id,
             'status': 1,
