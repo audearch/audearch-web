@@ -4,6 +4,19 @@ import toml
 from pymongo import MongoClient
 
 
+class DatabaseFactory(metaclass=ABCMeta):
+
+    @classmethod
+    @abstractmethod
+    def connect_database(cls):
+        pass
+
+    def create(self):
+        d = self.connect_database()
+
+        return d
+
+
 class Database(metaclass=ABCMeta):
 
     @classmethod
@@ -53,11 +66,7 @@ class Mongodb(Database):
     def update_search_queue(self, search_id: str, answerid: int):
         self.__collection = self.__db.get_collection(self.__config['database']['mongodb']['search_queue'])
 
-        post_origin = {
-            'hashid': search_id,
-            'status': 0,
-            'answerid': None
-        }
+        print("No2")
 
         post_edited = {
             'hashid': search_id,
@@ -65,13 +74,15 @@ class Mongodb(Database):
             'answer': answerid
         }
 
-        self.__collection.update_one(post_origin, post_edited)
+        update = self.__collection.replace_one({'hashid': search_id}, post_edited)
+
+        return update
 
     def delete_table(self):
-        self.__db.drop_collection(str(self.__config['database']['mongodb']['search']))
+        self.__db.drop_collection(str(self.__config['database']['mongodb']['search_queue']))
 
 
-class MongodbFactory():
+class SearchMongodbFactory(DatabaseFactory):
     def __init__(self):
         self.__client = None
         self.__db = None
