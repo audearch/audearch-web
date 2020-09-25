@@ -63,7 +63,7 @@ def get_search_queue(search_hash: str):
     return cur
 
 
-def index(request: Request):
+async def index(request: Request):
     return templates.TemplateResponse('index.html', {'request': request})
 
 
