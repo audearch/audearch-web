@@ -74,7 +74,7 @@ async def upload_file(background_tasks: BackgroundTasks, files: UploadFile = Fil
 
     background_tasks.add_task(write_hash, files, title, music_id, duration, int(size))
 
-    return RedirectResponse(f'/upload-complate')
+    return RedirectResponse('/upload-complate')
 
 
 @app.post("/upload_search_music", status_code=201)
