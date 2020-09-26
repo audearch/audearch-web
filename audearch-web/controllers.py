@@ -81,7 +81,8 @@ async def index(request: Request):
 @app.post("/upload_file/", status_code=201)
 async def upload_file(background_tasks: BackgroundTasks, files: UploadFile = File(...), music_id: str = Form(...), title: str = Form(...), duration: str = Form(...), size: int = Form(...)):
 
-    background_tasks.add_task(write_hash, files, title, music_id, duration, int(size))
+    background_tasks.add_task(write_hash, files, title,
+                              music_id, duration, int(size))
 
     return RedirectResponse('/upload-complate')
 
@@ -100,12 +101,30 @@ async def upload_search_music(background_tasks: BackgroundTasks, sfiles: UploadF
 async def search_detail(request: Request, search_hash: str):
     cur1 = get_search_queue(str(search_hash))
     if cur1 is None:
-        return templates.TemplateResponse('search-result.html', {"request": request, "id": "None", "status": "None", "progress": "None", "title": "None", "duration": "None"})
+        return templates.TemplateResponse('search-result.html',
+                                          {"request": request,
+                                           "id": "None",
+                                           "status": "None",
+                                           "progress": "None",
+                                           "title": "None",
+                                           "duration": "None"})
     elif int(cur1['status']) == 0:
-        return templates.TemplateResponse('search-result.html', {"request": request, "id": "None", "status": "searching", "progress": "None", "title": "None", "duration": "None"})
+        return templates.TemplateResponse('search-result.html',
+                                          {"request": request,
+                                           "id": "None",
+                                           "status": "searching",
+                                           "progress": "None",
+                                           "title": "None",
+                                           "duration": "None"})
     elif int(cur1['status']) == 1:
         cur2 = get_music_metadata(cur1['answer'])
-        return templates.TemplateResponse('search-result.html', {"request": request, "id": cur1['answer'], "status": "finish", "progress": "None", "title": str(cur2[0]['music_title']), "duration": cur2[0]['music_duration']})
+        return templates.TemplateResponse('search-result.html',
+                                          {"request": request,
+                                           "id": cur1['answer'],
+                                           "status": "finish",
+                                           "progress": "None",
+                                           "title": str(cur2[0]['music_title']),
+                                           "duration": cur2[0]['music_duration']})
     else:
         return {"message": "something went wrong"}
 
