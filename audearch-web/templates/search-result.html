@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+<br>
+<div class="row">
+    <div class="col-md-10">
+        <h1>audearch - result</h1>
+    </div>
+</div>
+
+<table class="table">
+    <tbody>
+        <tr>
+           <th scope="row">ID</th>
+           <td>{{id}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Status</th>
+            <td>{{status}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Progress</th>
+            <td>{{progress}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+{% endblock %}

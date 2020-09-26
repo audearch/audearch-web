@@ -88,14 +88,14 @@ async def upload_search_music(background_tasks: BackgroundTasks, sfiles: UploadF
 
 @app.get('/search/{search_hash}')
 @app.post('/search/{search_hash}')
-async def search_detail(search_hash: str):
+async def search_detail(request: Request, search_hash: str):
     cur = get_search_queue(str(search_hash))
     if cur is None:
-        return {"message": "Not Found"}
+        return templates.TemplateResponse('search-result.html', {"request": request, "id": "None", "status": "None", "progress": "None"})
     elif int(cur['status']) == 0:
-        return {"message": "searching"}
+        return templates.TemplateResponse('search-result.html', {"request": request, "id": "None", "status": "searching", "progress": "None"})
     elif int(cur['status']) == 1:
-        return {"message": str(cur['answer'])}
+        return templates.TemplateResponse('search-result.html', {"request": request, "id": cur['answer'], "status": "finish", "progress": "None"})
     else:
         return {"message": "something went wrong"}
 
