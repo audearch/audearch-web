@@ -74,7 +74,7 @@ async def upload_file(background_tasks: BackgroundTasks, files: UploadFile = Fil
 
     background_tasks.add_task(write_hash, files, title, music_id, duration, int(size))
 
-    return {"music_id": music_id}
+    return RedirectResponse(f'/upload-complate')
 
 
 @app.post("/upload_search_music", status_code=201)
@@ -108,3 +108,9 @@ async def upload(request: Request):
 @app.get('/search')
 async def search(request: Request):
     return templates.TemplateResponse('search.html', {'request': request})
+
+
+@app.get('/upload-complate')
+@app.post('/upload-complate')
+async def upload_complate(request: Request):
+    return templates.TemplateResponse('upload-complate.html', {'request': request})
