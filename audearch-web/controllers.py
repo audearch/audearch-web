@@ -65,6 +65,15 @@ def get_search_queue(search_hash: str):
     return cur
 
 
+def get_music_metadata(music_id: int):
+    mongodb = MongodbFactory()
+    imongo = mongodb.create()
+
+    cur = imongo.find_music_metadata(filter={'music_id': str(music_id)})
+
+    return cur
+
+
 async def index(request: Request):
     return templates.TemplateResponse('index.html', {'request': request})
 
@@ -89,13 +98,14 @@ async def upload_search_music(background_tasks: BackgroundTasks, sfiles: UploadF
 @app.get('/search/{search_hash}')
 @app.post('/search/{search_hash}')
 async def search_detail(request: Request, search_hash: str):
-    cur = get_search_queue(str(search_hash))
-    if cur is None:
-        return templates.TemplateResponse('search-result.html', {"request": request, "id": "None", "status": "None", "progress": "None"})
-    elif int(cur['status']) == 0:
-        return templates.TemplateResponse('search-result.html', {"request": request, "id": "None", "status": "searching", "progress": "None"})
-    elif int(cur['status']) == 1:
-        return templates.TemplateResponse('search-result.html', {"request": request, "id": cur['answer'], "status": "finish", "progress": "None"})
+    cur1 = get_search_queue(str(search_hash))
+    if cur1 is None:
+        return templates.TemplateResponse('search-result.html', {"request": request, "id": "None", "status": "None", "progress": "None", "title": "None", "duration": "None"})
+    elif int(cur1['status']) == 0:
+        return templates.TemplateResponse('search-result.html', {"request": request, "id": "None", "status": "searching", "progress": "None", "title": "None", "duration": "None"})
+    elif int(cur1['status']) == 1:
+        cur2 = get_music_metadata(cur1['answer'])
+        return templates.TemplateResponse('search-result.html', {"request": request, "id": cur1['answer'], "status": "finish", "progress": "None", "title": str(cur2[0]['music_title']), "duration": cur2[0]['music_duration']})
     else:
         return {"message": "something went wrong"}
 
