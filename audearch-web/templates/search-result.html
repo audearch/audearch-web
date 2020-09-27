@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block content %}
+<br>
+<div class="row">
+    <div class="col-md-10">
+        <h1>audearch - result</h1>
+    </div>
+</div>
+
+<table class="table">
+    <caption>Search Detail</caption>
+    <tbody>
+        <tr>
+           <th scope="row">ID</th>
+           <td>{{id}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Status</th>
+            <td>{{status}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Progress</th>
+            <td>{{progress}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table">
+    <caption>Music Detail</caption>
+    <tbody>
+        <tr>
+           <th scope="row">ID</th>
+           <td>{{id}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Title</th>
+            <td>{{title}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Duration</th>
+            <td>{{duration}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+{% endblock %}
