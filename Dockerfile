@@ -10,7 +10,7 @@ RUN apt-get update
 RUN apt-get install libsndfile1-dev -y
 
 ADD requirements.txt .
-ADD audearch-config.ini .
+ADD audearch-config.toml .
 
 # requirements.txtにリストされたPythonパッケージをインストールする
 RUN pip3 install -r requirements.txt
