@@ -1,6 +1,6 @@
 audearch==0.3.2
 fastapi==0.61.1
 uvicorn==0.11.7
-starlette==0.13.8
+starlette==0.20.1
 Jinja2==2.11.2
 python-multipart==0.0.5
